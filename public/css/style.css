@@ -110,6 +110,34 @@ a:hover, a:focus {
     background-color: #ffffff;
 }
 
+/* Language Dropdown */
+.dropdown-lang {
+    background: var(--bg-dark);
+    border: 1px solid var(--primary-blue);
+    border-radius: 4px;
+    min-width: 150px;
+    -webkit-box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.dropdown-lang > li > a {
+    color: rgba(255,255,255,0.8) !important;
+    padding: 8px 15px;
+    font-size: 13px;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.dropdown-lang > li > a:hover {
+    background: rgba(255,255,255,0.1) !important;
+    color: #fff !important;
+}
+
+.dropdown-lang > li.active > a {
+    background: var(--primary-blue) !important;
+    color: #fff !important;
+}
+
 /* --------------------------------
    Hero Section
    -------------------------------- */

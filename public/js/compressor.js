@@ -6,6 +6,9 @@
 (function () {
     'use strict';
 
+    // Localized strings (set by Blade template)
+    var LANG = window.COMPRESS_LANG || {};
+
     // Quality mappings
     var QUALITY_MAP = {
         alta: 0.80,
@@ -109,8 +112,8 @@
             // Update upload area text
             uploadArea.innerHTML =
                 '<div class="upload-icon"><i class="fa fa-check-circle" style="color:#27ae60;"></i></div>' +
-                '<h3>' + selectedFiles.length + ' imagem(ns) selecionada(s)</h3>' +
-                '<p>Clique para selecionar outras imagens</p>' +
+                '<h3>' + selectedFiles.length + ' ' + (LANG.images_selected || 'imagem(ns) selecionada(s)') + '</h3>' +
+                '<p>' + (LANG.click_select_other || 'Clique para selecionar outras imagens') + '</p>' +
                 '<input type="file" id="fileInput" multiple accept="image/*" class="hidden">';
 
             // Re-bind file input
@@ -345,7 +348,7 @@
                 '<td>' + formatSize(f.originalSize) + '</td>' +
                 '<td>' + formatSize(f.compressedSize) + '</td>' +
                 '<td><span class="reduction-badge ' + badgeClass + '">-' + reduction + '%</span></td>' +
-                '<td><a href="' + f.url + '" download="' + escapeHtml(f.name) + '" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Baixar</a></td>';
+                '<td><a href="' + f.url + '" download="' + escapeHtml(f.name) + '" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> ' + (LANG.btn_download || 'Baixar') + '</a></td>';
 
             resultsBody.appendChild(row);
         }
@@ -356,10 +359,10 @@
 
         resultsSummary.innerHTML =
             '<i class="fa fa-pie-chart"></i> ' +
-            '<strong>' + compressedFiles.length + '</strong> imagem(ns) comprimida(s) | ' +
+            '<strong>' + compressedFiles.length + '</strong> ' + (LANG.images_compressed || 'imagem(ns) comprimida(s)') + ' | ' +
             'Original: <strong>' + formatSize(totalOriginal) + '</strong> → ' +
-            'Comprimido: <strong>' + formatSize(totalCompressed) + '</strong> | ' +
-            'Economia total: <strong>' + totalReduction + '%</strong> (' + formatSize(totalOriginal - totalCompressed) + ')';
+            'Compressed: <strong>' + formatSize(totalCompressed) + '</strong> | ' +
+            (LANG.total_savings || 'Economia total') + ': <strong>' + totalReduction + '%</strong> (' + formatSize(totalOriginal - totalCompressed) + ')';
     }
 
     // ---- Download All ----
@@ -384,9 +387,9 @@
 
         uploadArea.innerHTML =
             '<div class="upload-icon"><i class="fa fa-cloud-upload"></i></div>' +
-            '<h3>Arraste e solte suas imagens aqui</h3>' +
-            '<p>ou clique para selecionar arquivos</p>' +
-            '<p class="text-muted"><small>Suporta: JPG, PNG, GIF, WebP, SVG, BMP, TIFF, ICO &bull; Máximo: 50MB por imagem</small></p>' +
+            '<h3>' + (LANG.upload_title || 'Arraste e solte suas imagens aqui') + '</h3>' +
+            '<p>' + (LANG.upload_subtitle || 'ou clique para selecionar arquivos') + '</p>' +
+            '<p class="text-muted"><small>' + (LANG.upload_formats || 'Suporta: JPG, PNG, GIF, WebP, SVG, BMP, TIFF, ICO &bull; Máximo: 50MB por imagem') + '</small></p>' +
             '<input type="file" id="fileInput" multiple accept="image/*" class="hidden">';
 
         var newInput = document.getElementById('fileInput');

@@ -1,35 +1,41 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="{{ $htmlLang ?? 'pt-BR' }}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     {{-- SEO Meta --}}
-    <title>@yield('title', 'CompressImg - Compressor de Imagens Online Grátis | Reduza o Tamanho das Suas Imagens')</title>
-    <meta name="description" content="@yield('meta_description', 'CompressImg é o melhor compressor de imagens online e gratuito. Comprima JPG, PNG, GIF, WebP e SVG diretamente no navegador sem perda de qualidade. Rápido, seguro e sem upload para servidores.')">
-    <meta name="keywords" content="comprimir imagem, compressor de imagem online, reduzir tamanho imagem, comprimir jpg, comprimir png, comprimir gif, comprimir webp, otimizar imagem, compress image online">
+    <title>@yield('title', __('messages.meta_title'))</title>
+    <meta name="description" content="@yield('meta_description', __('messages.meta_description'))">
+    <meta name="keywords" content="compress image, image compressor, compress jpg, compress png, compress gif, compress webp, optimize image, compress image online, compressor de imagem, comprimir imagem">
     <meta name="author" content="CompressImg">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="{{ url('/') }}">
+    <link rel="canonical" href="{{ url(($locale ?? 'pt')) }}">
+
+    {{-- Hreflang tags for SEO --}}
+    @foreach(($locales ?? ['en','pt','es','fr','zh','hi','ru']) as $loc)
+    <link rel="alternate" hreflang="{{ $loc }}" href="{{ url($loc) }}">
+    @endforeach
+    <link rel="alternate" hreflang="x-default" href="{{ url('pt') }}">
 
     {{-- OpenGraph --}}
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('og_title', 'CompressImg - O Melhor Compressor de Imagens Online Grátis')">
-    <meta property="og:description" content="@yield('og_description', 'Comprima suas imagens JPG, PNG, GIF, WebP e SVG gratuitamente, direto no navegador. Sem upload para servidores, 100% seguro e rápido.')">
+    <meta property="og:title" content="@yield('og_title', __('messages.og_title'))">
+    <meta property="og:description" content="@yield('og_description', __('messages.og_description'))">
     <meta property="og:image" content="@yield('og_image', asset('img/og-cover.png'))">
-    <meta property="og:locale" content="pt_BR">
+    <meta property="og:locale" content="{{ $htmlLang ?? 'pt-BR' }}">
     <meta property="og:site_name" content="CompressImg">
 
     {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('og_title', 'CompressImg - O Melhor Compressor de Imagens Online Grátis')">
-    <meta name="twitter:description" content="@yield('og_description', 'Comprima suas imagens gratuitamente direto no navegador.')">
+    <meta name="twitter:title" content="@yield('og_title', __('messages.og_title'))">
+    <meta name="twitter:description" content="@yield('og_description', __('messages.og_description'))">
     <meta name="twitter:image" content="@yield('og_image', asset('img/og-cover.png'))">
 
     {{-- RSS Feed --}}
-    <link rel="alternate" type="application/rss+xml" title="CompressImg RSS Feed" href="{{ url('/feed.xml') }}">
+    <link rel="alternate" type="application/rss+xml" title="CompressImg RSS Feed" href="{{ url(($locale ?? 'pt') . '/feed.xml') }}">
 
     {{-- Sitemap --}}
     <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ url('/sitemap.xml') }}">
@@ -59,14 +65,14 @@
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "CompressImg",
-        "url": "{{ url('/') }}",
-        "description": "O melhor compressor de imagens online e gratuito. Comprima JPG, PNG, GIF, WebP e SVG direto no navegador.",
+        "url": "{{ url(($locale ?? 'pt')) }}",
+        "description": "{{ __('messages.jsonld_app_description') }}",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "All",
         "offers": {
             "@type": "Offer",
             "price": "0",
-            "priceCurrency": "BRL"
+            "priceCurrency": "USD"
         },
         "author": {
             "@type": "Organization",
@@ -89,16 +95,30 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url(($locale ?? 'pt')) }}">
                     <i class="fa fa-compress"></i> Compress<span>Img</span>
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="main-nav">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{{ url(($locale ?? 'pt')) }}"><i class="fa fa-home"></i> {{ __('messages.nav_home') }}</a></li>
+                    <li><a href="#como-funciona"><i class="fa fa-info-circle"></i> {{ __('messages.nav_how') }}</a></li>
+                    <li><a href="#formatos"><i class="fa fa-file-image-o"></i> {{ __('messages.nav_formats') }}</a></li>
+                    <li><a href="#artigo"><i class="fa fa-newspaper-o"></i> {{ __('messages.nav_article') }}</a></li>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="{{ url('/') }}"><i class="fa fa-home"></i> Início</a></li>
-                    <li><a href="#como-funciona"><i class="fa fa-info-circle"></i> Como Funciona</a></li>
-                    <li><a href="#formatos"><i class="fa fa-file-image-o"></i> Formatos</a></li>
-                    <li><a href="#artigo"><i class="fa fa-newspaper-o"></i> Artigo</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-globe"></i> {{ __('messages.lang_' . ($locale ?? 'pt')) }} <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-lang">
+                            @foreach(($locales ?? ['en','pt','es','fr','zh','hi','ru']) as $loc)
+                                <li class="{{ ($locale ?? 'pt') === $loc ? 'active' : '' }}">
+                                    <a href="{{ url($loc) }}">{{ __('messages.lang_' . $loc) }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -113,18 +133,18 @@
             <div class="row">
                 <div class="col-md-4">
                     <h4><i class="fa fa-compress"></i> CompressImg</h4>
-                    <p>O primeiro e melhor compressor de imagens online do mundo. Tecnologia de ponta para comprimir suas imagens sem perder qualidade.</p>
+                    <p>{{ __('messages.footer_desc') }}</p>
                 </div>
                 <div class="col-md-4">
-                    <h4><i class="fa fa-link"></i> Links Úteis</h4>
+                    <h4><i class="fa fa-link"></i> {{ __('messages.footer_links') }}</h4>
                     <ul class="list-unstyled footer-links">
-                        <li><a href="{{ url('/') }}">Compressor de Imagens</a></li>
-                        <li><a href="{{ url('/sitemap.xml') }}">Sitemap</a></li>
-                        <li><a href="{{ url('/feed.xml') }}">RSS Feed</a></li>
+                        <li><a href="{{ url(($locale ?? 'pt')) }}">{{ __('messages.footer_link_compressor') }}</a></li>
+                        <li><a href="{{ url(($locale ?? 'pt') . '/sitemap.xml') }}">Sitemap</a></li>
+                        <li><a href="{{ url(($locale ?? 'pt') . '/feed.xml') }}">RSS Feed</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <h4><i class="fa fa-file-image-o"></i> Formatos Suportados</h4>
+                    <h4><i class="fa fa-file-image-o"></i> {{ __('messages.footer_formats') }}</h4>
                     <p>
                         <span class="label label-primary">JPG</span>
                         <span class="label label-info">PNG</span>
@@ -140,8 +160,8 @@
             <hr>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <p class="footer-copy">&copy; {{ date('Y') }} CompressImg - Compressor de Imagens Online Grátis. Todos os direitos reservados.</p>
-                    <p class="footer-tech">Processamento 100% no navegador. Suas imagens nunca saem do seu computador. <i class="fa fa-lock"></i></p>
+                    <p class="footer-copy">&copy; {{ date('Y') }} {{ __('messages.footer_copy') }}</p>
+                    <p class="footer-tech">{{ __('messages.footer_tech') }} <i class="fa fa-lock"></i></p>
                 </div>
             </div>
         </div>

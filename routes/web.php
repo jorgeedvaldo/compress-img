@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Middleware\SetLocale;
 
 /*
 |--------------------------------------------------------------------------
@@ -9,11 +10,26 @@ use App\Http\Controllers\PageController;
 |--------------------------------------------------------------------------
 */
 
-// Homepage
-Route::get('/', [PageController::class, 'index'])->name('home');
+// Root redirect to default locale
+Route::get('/', function () {
+    return redirect('/' . SetLocale::DEFAULT_LOCALE);
+});
 
-// RSS Feed
-Route::get('/feed.xml', [PageController::class, 'feed'])->name('feed');
+// Locale-prefixed routes
+Route::group([
+    'prefix' => '{locale}',
+    'middleware' => 'locale',
+    'where' => ['locale' => implode('|', SetLocale::LOCALES)],
+], function () {
+    Route::get('/', [PageController::class, 'index'])->name('home');
+    Route::get('/feed.xml', [PageController::class, 'feed'])->name('feed');
+    Route::get('/sitemap.xml', [PageController::class, 'sitemap'])->name('sitemap');
+});
 
-// Sitemap
-Route::get('/sitemap.xml', [PageController::class, 'sitemap'])->name('sitemap');
+// Global sitemap index (no locale prefix)
+Route::get('/sitemap.xml', [PageController::class, 'sitemapIndex'])->name('sitemap.index');
+
+// Global RSS redirect
+Route::get('/feed.xml', function () {
+    return redirect('/' . SetLocale::DEFAULT_LOCALE . '/feed.xml');
+});
