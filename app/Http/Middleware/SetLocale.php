@@ -15,7 +15,7 @@ class SetLocale
     /**
      * Default locale
      */
-    public const DEFAULT_LOCALE = 'pt';
+    public const DEFAULT_LOCALE = 'en';
 
     /**
      * Handle an incoming request.
