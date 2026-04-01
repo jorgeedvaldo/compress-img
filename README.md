@@ -183,7 +183,7 @@ compress-img/
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/compress-img.git
+git clone https://github.com/jorgeedvaldo/compress-img.git
 cd compress-img
 
 # Install PHP dependencies
