@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html lang="{{ $htmlLang ?? 'pt-BR' }}">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6QLW63BEMJ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date()); gtag('config', 'G-6QLW63BEMJ'); 
+    </script>
+
     {{-- SEO Meta --}}
     <title>@yield('title', __('messages.meta_title'))</title>
     <meta name="description" content="@yield('meta_description', __('messages.meta_description'))">
-    <meta name="keywords" content="compress image, image compressor, compress jpg, compress png, compress gif, compress webp, optimize image, compress image online, compressor de imagem, comprimir imagem">
+    <meta name="keywords"
+        content="compress image, image compressor, compress jpg, compress png, compress gif, compress webp, optimize image, compress image online, compressor de imagem, comprimir imagem">
     <meta name="author" content="CompressImg">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ url(($locale ?? 'pt')) }}">
 
     {{-- Hreflang tags for SEO --}}
-    @foreach(($locales ?? ['en','pt','es','fr','zh','hi','ru']) as $loc)
-    <link rel="alternate" hreflang="{{ $loc }}" href="{{ url($loc) }}">
+    @foreach(($locales ?? ['en', 'pt', 'es', 'fr', 'zh', 'hi', 'ru']) as $loc)
+        <link rel="alternate" hreflang="{{ $loc }}" href="{{ url($loc) }}">
     @endforeach
     <link rel="alternate" hreflang="x-default" href="{{ url('pt') }}">
 
@@ -35,7 +45,8 @@
     <meta name="twitter:image" content="@yield('og_image', asset('img/og-cover.png'))">
 
     {{-- RSS Feed --}}
-    <link rel="alternate" type="application/rss+xml" title="CompressImg RSS Feed" href="{{ url(($locale ?? 'pt') . '/feed.xml') }}">
+    <link rel="alternate" type="application/rss+xml" title="CompressImg RSS Feed"
+        href="{{ url(($locale ?? 'pt') . '/feed.xml') }}">
 
     {{-- Sitemap --}}
     <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ url('/sitemap.xml') }}">
@@ -48,7 +59,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 
     {{-- Google Fonts - Retro 2013 vibes --}}
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Oswald:wght@400;500;700&display=swap"
+        rel="stylesheet">
 
     {{-- Font Awesome 4 --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -60,29 +73,30 @@
     @hasSection('jsonld')
         @yield('jsonld')
     @else
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "CompressImg",
-        "url": "{{ url(($locale ?? 'pt')) }}",
-        "description": "{{ __('messages.jsonld_app_description') }}",
-        "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "All",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "author": {
-            "@type": "Organization",
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
             "name": "CompressImg",
-            "url": "{{ url('/') }}"
+            "url": "{{ url(($locale ?? 'pt')) }}",
+            "description": "{{ __('messages.jsonld_app_description') }}",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "All",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "author": {
+                "@type": "Organization",
+                "name": "CompressImg",
+                "url": "{{ url('/') }}"
+            }
         }
-    }
-    </script>
+        </script>
     @endif
 </head>
+
 <body>
 
     {{-- Navbar --}}
@@ -101,18 +115,21 @@
             </div>
             <div class="collapse navbar-collapse" id="main-nav">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{ url(($locale ?? 'pt')) }}"><i class="fa fa-home"></i> {{ __('messages.nav_home') }}</a></li>
+                    <li class="active"><a href="{{ url(($locale ?? 'pt')) }}"><i class="fa fa-home"></i>
+                            {{ __('messages.nav_home') }}</a></li>
                     <li><a href="#como-funciona"><i class="fa fa-info-circle"></i> {{ __('messages.nav_how') }}</a></li>
                     <li><a href="#formatos"><i class="fa fa-file-image-o"></i> {{ __('messages.nav_formats') }}</a></li>
                     <li><a href="#artigo"><i class="fa fa-newspaper-o"></i> {{ __('messages.nav_article') }}</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-globe"></i> {{ __('messages.lang_' . ($locale ?? 'pt')) }} <span class="caret"></span>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="fa fa-globe"></i> {{ __('messages.lang_' . ($locale ?? 'pt')) }} <span
+                                class="caret"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-lang">
-                            @foreach(($locales ?? ['en','pt','es','fr','zh','hi','ru']) as $loc)
+                            @foreach(($locales ?? ['en', 'pt', 'es', 'fr', 'zh', 'hi', 'ru']) as $loc)
                                 <li class="{{ ($locale ?? 'pt') === $loc ? 'active' : '' }}">
                                     <a href="{{ url($loc) }}">{{ __('messages.lang_' . $loc) }}</a>
                                 </li>
@@ -176,4 +193,5 @@
 
     @yield('scripts')
 </body>
+
 </html>
